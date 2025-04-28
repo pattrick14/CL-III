@@ -1,0 +1,35 @@
+1. Environment Setup
+Start Hadoop services (HDFS and YARN) with start-dfs.sh and start-yarn.sh
+Verify services are running with jps
+
+
+2. Data Preparation
+Create student_marks.csv with student IDs, subjects, and marks
+Create HDFS directory: hadoop fs -mkdir /mapreduce_student_grade
+Upload data: hadoop fs -put student_marks.csv /mapreduce_student_grade
+
+
+3. MapReduce Implementation
+Create mapper script (mapper_student_grade.py) to process each record
+Create reducer script (reducer_student_grade.py) to aggregate results
+Make scripts executable: chmod +x mapper_student_grade.py reducer_student_grade.py
+
+
+4. Job Execution
+Find Hadoop streaming JAR location: /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.4.jar
+Run the MapReduce job:
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.4.jar \
+-input /mapreduce_student_grade/student_marks.csv \
+-output /output_student_grade \
+-mapper /home/hduser/mapper_student_grade.py \
+-reducer /home/hduser/reducer_student_grade.py
+
+
+
+5. View Results
+Check output: hadoop fs -cat /output_student_grade/part-00000
+Output shows student IDs, average marks, and letter grades
+
+
+6. Cleanup
+Stop Hadoop services with stop-dfs.sh and stop-yarn.sh

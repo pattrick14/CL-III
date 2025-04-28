@@ -1,0 +1,36 @@
+1. Start Hadoop Services
+Switch to Hadoop user: su hduser
+Start HDFS: start-dfs.sh
+Start YARN: start-yarn.sh
+Verify services are running: jps
+
+
+2. Prepare Input Data
+Create a text file (word_count.txt) with content to analyze
+
+
+3. Set Up HDFS Directory Structure
+Create directory: hadoop fs -mkdir /mapreduce_word_count
+Upload file: hadoop fs -put word_count.txt /mapreduce_word_count
+Verify: hadoop fs -ls /mapreduce_word_count
+
+
+4. Create MapReduce Scripts
+Write mapper script (mapper_word_count.py)
+Write reducer script (reducer_word_count.py)
+Make scripts executable: chmod +x mapper_word_count.py reducer_word_count.py
+
+
+5. Run MapReduce Job
+Locate Hadoop streaming JAR (in /usr/local/hadoop/share/hadoop/tools/lib/)
+Run job:
+hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.4.jar \
+-input /mapreduce_word_count/word_count.txt \
+-output /output \
+-mapper /home/hduser/mapper_word_count.py \
+-reducer /home/hduser/reducer_word_count.py
+
+
+
+6. View Results
+Check output directory: hadoop fs -ls /output

@@ -1,0 +1,28 @@
+1. Start Hadoop Services:
+Start HDFS with start-dfs.sh
+Start YARN with start-yarn.sh
+
+
+2. Prepare Input Data:
+Create a file (matrix.txt) containing both matrices
+Format: MatrixID,Row,Column,Value (Example: A,0,0,1)
+
+
+3. Set Up HDFS Directory Structure:
+Create directory: hadoop fs -mkdir /mapreduce_matrix_multiplication
+Upload file: hadoop fs -put matrix.txt /mapreduce_matrix_multiplication
+
+
+4. Create MapReduce Scripts:
+Write Python mapper script (mapper_matrix.py)
+Write Python reducer script (reducer_matrix.py)
+Make scripts executable: chmod +x mapper_matrix.py reducer_matrix.py
+
+
+5. Run MapReduce Job:
+Execute using Hadoop streaming jar: hadoop jar hadoop-streaming-3.3.4.jar -input [input_path] -output [output_path] -mapper [mapper_path] -reducer [reducer_path]
+
+
+6. View Results:
+Check output directory: hadoop fs -ls /output_matrix
+View result file: hadoop fs -cat /output_matrix/part-00000
